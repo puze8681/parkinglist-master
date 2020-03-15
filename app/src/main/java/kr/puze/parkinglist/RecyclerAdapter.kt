@@ -23,7 +23,7 @@ class RecyclerAdapter(var items: ArrayList<RecyclerData>, var context: Context) 
             itemClick?.onItemClick(holder.itemView, position)
         }
         holder.itemView.delete.setOnClickListener {
-            MainActivity().removeItem(items[position].key.toString())
+            MainActivity().removeItem(position)
             items.removeAt(position)
             notifyDataSetChanged()
         }
@@ -34,12 +34,7 @@ class RecyclerAdapter(var items: ArrayList<RecyclerData>, var context: Context) 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val context = itemView.context!!
         fun bind(item: RecyclerData, position: Int) {
-            if(position == 0){
-                itemView.delete.visibility = View.INVISIBLE
-                itemView.num.text = "순번"
-            }else{
-                itemView.num.text = position.toString()
-            }
+            itemView.num.text = (position+1).toString()
             itemView.phone.text = item.phone.toString()
             itemView.car.text = item.car.toString()
 
@@ -53,11 +48,6 @@ class RecyclerAdapter(var items: ArrayList<RecyclerData>, var context: Context) 
 
     interface ItemClick {
         fun onItemClick(view: View?, position: Int)
-    }
-
-    fun addItem(key:String, phone: String, car: String){
-        items.add(RecyclerData(key, phone, car, false))
-        notifyDataSetChanged()
     }
 
     fun findItem(carString: String){

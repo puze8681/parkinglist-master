@@ -3,9 +3,8 @@ package kr.puze.parkinglist
 import android.os.Parcel
 import android.os.Parcelable
 
-class RecyclerData(var key: String?, var phone: String?, var car: String?, var out: Boolean) : Parcelable {
+class RecyclerData(var phone: String?, var car: String?, var out: Boolean) : Parcelable {
     constructor(source: Parcel) : this(
-            source.readString(),
             source.readString(),
             source.readString(),
         1 == source.readInt()
@@ -14,7 +13,6 @@ class RecyclerData(var key: String?, var phone: String?, var car: String?, var o
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(key)
         writeString(phone)
         writeString(car)
         writeInt((if (out) 1 else 0))

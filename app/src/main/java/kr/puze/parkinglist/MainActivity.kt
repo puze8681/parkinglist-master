@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
     companion object{
         lateinit var recyclerAdapter: RecyclerAdapter
         val firebaseDatabase = FirebaseDatabase.getInstance()
-        var myRef = firebaseDatabase.reference.child("data")
+        var myRef = firebaseDatabase.reference.child("list")
         var pushRef = firebaseDatabase.reference.child("push")
+        val item = ArrayList<RecyclerData>()
         lateinit var context: Context
     }
 
@@ -30,48 +31,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         context = this@MainActivity
-        val item = ArrayList<RecyclerData>()
-        item.add(RecyclerData("key","번호", "차 번호", false))
         recyclerAdapter = RecyclerAdapter(item, this@MainActivity)
         recycler.adapter = recyclerAdapter
         recyclerAdapter.notifyDataSetChanged()
 
-//        val valueEventListener = object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val list = ArrayList()
-//                for (ds in dataSnapshot.children) {
-//                    val uid = ds.key
-//                    list.add(uid)
-//                }
-//
-//                //Do what you need to do with your list
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Log.d(FragmentActivity.TAG, databaseError.message) //Don't ignore errors!
-//            }
-//        }
-
-
-        myRef.addChildEventListener(object : ChildEventListener {
-                override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                    val data = dataSnapshot.getValue<Data>(Data::class.java)
-                    Log.d("LOGTAG, myRef onChildAdded:", data.toString())
-                    item.add(RecyclerData(dataSnapshot.key.toString(),data!!.phone!!, data.car!!, false))
-                    recyclerAdapter.notifyDataSetChanged()
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                item.clear()
+                dataSnapshot.children.forEach{
+                    it.getValue(Data::class.java)?.let { data ->
+                        item.add(RecyclerData(data.phone, data.car, false))
+                    }
                 }
+                recyclerAdapter.notifyDataSetChanged()
+            }
 
-                override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
-
-                override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                    val data = dataSnapshot.getValue<Data>(Data::class.java)
-                    Log.d("LOGTAG, myRef onChildRemoved:", data.toString())
-                }
-
-                override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
-
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+        myRef.addValueEventListener(valueEventListener)
 
         pushRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
@@ -102,14 +80,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         button.setOnClickListener {
-            myRef.push().setValue(Data(edit_phone.text.toString(), edit_car.text.toString()))
+            item.add(RecyclerData(edit_phone.text.toString(), edit_car.text.toString(), false))
+            myRef.setValue(item)
             edit_phone.setText("")
             edit_car.setText("")
         }
     }
 
-    fun removeItem(key: String) {
-        myRef.child(key).removeValue()
+    fun removeItem(position: Int) {
+        item.removeAt(position)
+        myRef.setValue(item)
     }
 
     fun notification(car: String){
