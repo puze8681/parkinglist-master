@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "17428924663",
+    "firebase_url": "https://parking-2280b.firebaseio.com",
+    "project_id": "parking-2280b",
+    "storage_bucket": "parking-2280b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17428924663:android:aa5f687cdecfbbbc502bf2",
+        "android_client_info": {
+          "package_name": "kr.puze.parkinglist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17428924663-jhmk1ra5vepoq76frrrugv9ksgo515if.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.puze.parkinglist",
+            "certificate_hash": "6f6427e2bbddcfbee7ea8084e7cab0f58c362861"
+          }
+        },
+        {
+          "client_id": "17428924663-bvccvan457908gsk93r1le5777usb318.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2HKbjF0Gjw8Uy5xK_KajcdtfZ174LYDg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17428924663-bvccvan457908gsk93r1le5777usb318.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
