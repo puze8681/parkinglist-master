@@ -24,8 +24,6 @@ class RecyclerAdapter(var items: ArrayList<RecyclerData>, var context: Context) 
         }
         holder.itemView.delete.setOnClickListener {
             MainActivity().removeItem(position)
-            items.removeAt(position)
-            notifyDataSetChanged()
         }
     }
 

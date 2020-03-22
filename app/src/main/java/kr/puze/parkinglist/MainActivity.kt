@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
         lateinit var recyclerAdapter: RecyclerAdapter
         val firebaseDatabase = FirebaseDatabase.getInstance()
-        var myRef = firebaseDatabase.reference.child("list")
+        var myRef = firebaseDatabase.reference.child("real")
         var pushRef = firebaseDatabase.reference.child("push")
         val item = ArrayList<RecyclerData>()
         lateinit var context: Context
